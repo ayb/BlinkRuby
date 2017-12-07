@@ -7,7 +7,7 @@ This is a basic implementation of the Blink Home Api in Ruby. It is only in beta
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'blink'
+gem 'blink-home'
 ```
 
 And then execute:
@@ -42,7 +42,7 @@ Or install it yourself as:
 
   # enable or disable a cameras motion tracking
   camera = cameras.first
-  
+
   camera.enable
   puts camera.enabled # true
 
