@@ -2,7 +2,7 @@ module Blink
   class Constants
       BASE = "https://rest.prde.immedia-semi.com"
 
-      @@token
+      @@token = ''
 
       def self.token
         @@token

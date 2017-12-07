@@ -17,6 +17,27 @@ module Blink
       }
     end
 
+    def cameras
+
+      @options = {
+        headers: @headers
+      }
+
+      response = self.class.get("/network/#{self.id}/cameras", @options)
+
+      case response.code
+        when 200
+          body = JSON.parse(response.body)
+          body['devicestatus'].map do |data|
+            Camera.new data['id'], data['name'], data['enabled'], data['wifi_strength'], self.id
+          end
+        when 404
+          throw Exception.new
+        when 500...600
+          throw Exception.new
+      end
+    end
+
     def sync_modules
 
       @options = {
@@ -28,7 +49,44 @@ module Blink
       case response.code
         when 200
           body = JSON.parse(response.body)
-          puts body
+          parsed = body['syncmodule']
+          SyncModule.new parsed['id'],parsed['name'],parsed['status'],parsed['wifi_strength']
+        when 404
+          throw Exception.new
+        when 500...600
+          throw Exception.new
+      end
+    end
+
+    def arm
+
+      @options = {
+        headers: @headers
+      }
+
+      response = self.class.post("/network/#{self.id}/arm", @options)
+
+      case response.code
+        when 200
+          @armed = true
+        when 404
+          throw Exception.new
+        when 500...600
+          throw Exception.new
+      end
+    end
+
+    def disarm
+
+      @options = {
+        headers: @headers
+      }
+
+      response = self.class.post("/network/#{self.id}/disarm", @options)
+
+      case response.code
+        when 200
+          @armed = false
         when 404
           throw Exception.new
         when 500...600
@@ -36,5 +94,4 @@ module Blink
       end
     end
   end 
-
 end

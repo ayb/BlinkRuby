@@ -1,6 +1,6 @@
 RSpec.describe Blink::System do
   before(:all) do
-      @system = Blink::System.new "steveyblam@hotmail.co.uk" , "root55561"
+      @system = Blink::System.new ENV['BLINK_EMAIL'] , ENV['BLINK_PASSWORD']
   end
 
   it "should return a list of networks" do
