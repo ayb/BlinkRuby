@@ -5,7 +5,7 @@ require "blink/version"
 
 
 Gem::Specification.new do |spec|
-  spec.name          = "blink"
+  spec.name          = "blink-home"
   spec.version       = Blink::VERSION
   spec.authors       = ["Stephen Reid"]
   spec.email         = ["steveyblam@hotmail.co.uk"]
