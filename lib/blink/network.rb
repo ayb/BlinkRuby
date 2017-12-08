@@ -29,7 +29,7 @@ module Blink
         when 200
           body = JSON.parse(response.body)
           body['devicestatus'].map do |data|
-            Camera.new data['id'], data['name'], data['enabled'], data['wifi_strength'], self.id
+            Camera.new data['id'], data['name'], self.id, data['enabled'], data['wifi_strength']
           end
         when 404
           throw Exception.new

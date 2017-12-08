@@ -6,7 +6,7 @@ module Blink
 
     attr_reader :id, :name, :enabled, :wifi_strength, :network_id
 
-    def initialize id, name, enabled, wifi_strength, network_id
+    def initialize id, name,network_id, enabled, wifi_strength
       @id = id
       @name = name
       @enabled = enabled
