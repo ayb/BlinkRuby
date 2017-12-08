@@ -30,9 +30,9 @@ module Blink
         when 200
           @enabled = true
         when 404
-          throw Exception.new
+          throw Exception.new(response.body)
         when 500...600
-          throw Exception.new
+          throw Exception.new(response.body)
       end
     end
 
@@ -48,9 +48,9 @@ module Blink
         when 200
           @enabled = false
         when 404
-          throw Exception.new
+          throw Exception.new(response.body)
         when 500...600
-          throw Exception.new
+          throw Exception.new(response.body)
       end
     end
   end 

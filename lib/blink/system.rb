@@ -33,9 +33,9 @@ module Blink
           Blink::Constants.token = body["authtoken"]["authtoken"]
           @headers["TOKEN_AUTH"] = Blink::Constants.token
         when 404
-          throw Exception.new
+          throw Exception.new(response.body)
         when 500...600
-          throw Exception.new
+          throw Exception.new(response.body)
       end
     end
 
@@ -54,9 +54,9 @@ module Blink
             Network.new data['id'], data['name'], data['armed'], data['description']
           end
         when 404
-          throw Exception.new
+          throw Exception.new(response.body)
         when 500...600
-          throw Exception.new
+          throw Exception.new(response.body)
       end
     end
   end

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    blink-home (0.1.1)
+    blink-home (1.0.0)
       httparty (~> 0.15)
 
 GEM

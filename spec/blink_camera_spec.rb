@@ -6,7 +6,8 @@ RSpec.describe Blink::Camera do
       @id = 19729
       @name = "Garden"
       @enabled = false
-      @camera = Blink::Camera.new @id, @name, @enabled, @description, 7681
+      @network_id = 7681
+      @camera = Blink::Camera.new @id, @name,@network_id, @enabled, @description
   end
 
   it "should set id from constructor" do

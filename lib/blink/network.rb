@@ -32,9 +32,9 @@ module Blink
             Camera.new data['id'], data['name'], self.id, data['enabled'], data['wifi_strength']
           end
         when 404
-          throw Exception.new
+          throw Exception.new(response.body)
         when 500...600
-          throw Exception.new
+          throw Exception.new(response.body)
       end
     end
 
@@ -52,9 +52,9 @@ module Blink
           parsed = body['syncmodule']
           SyncModule.new parsed['id'],parsed['name'],parsed['status'],parsed['wifi_strength']
         when 404
-          throw Exception.new
+          throw Exception.new(response.body)
         when 500...600
-          throw Exception.new
+          throw Exception.new(response.body)
       end
     end
 
@@ -70,9 +70,9 @@ module Blink
         when 200
           @armed = true
         when 404
-          throw Exception.new
+          throw Exception.new(response.body)
         when 500...600
-          throw Exception.new
+          throw Exception.new(response.body)
       end
     end
 
@@ -88,9 +88,9 @@ module Blink
         when 200
           @armed = false
         when 404
-          throw Exception.new
+          throw Exception.new(response.body)
         when 500...600
-          throw Exception.new
+          throw Exception.new(response.body)
       end
     end
   end 
