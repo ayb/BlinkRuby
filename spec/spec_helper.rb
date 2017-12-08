@@ -17,4 +17,10 @@ RSpec.configure do |config|
   def random_string
     ('a'..'z').to_a.shuffle[0,8].join
   end
+
+  def poll command
+    # wait for the command to finish
+    # can setup polling on this later
+    sleep 5
+  end
 end
