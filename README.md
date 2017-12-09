@@ -23,30 +23,41 @@ Or install it yourself as:
 
 ```
 
-  # Create a new system object and pass it your email and password
+  # login
+  @blink = Blink::API.new
+  @blink.login username,password
+  
+  # or set the token manually
+  @blink.token = token
+  
+  # list of networks
+  networks = @blink.networks
 
-  system = Blink::System.new email,password
+  # all sync module on network
+  sync_module = @blink.sync_modules network_id
 
-  # arm or disarm the system
-  system.arm
-  puts system.armed # true
+  # list all cameras
+  networks = @blink.cameras network_id
 
-  system.disarm
-  puts system.armed # false
+  # get a single camera
+  camera = @blink.camera @network_id, @camera_id
+  
+  # create an arm network command
+  command = @blink.arm_network network_id
 
-  # request networks
-  networks = system.networks
+  # create a disarm network command
+  command = @blink.disarm_network network_id
 
-  # get the cameras on a network
-  cameras = networks.first.cameras
+  # create an enable camera command
+  command = @blink.enable_camera network_id, camera_id
 
-  # enable or disable a cameras motion tracking
-  camera = cameras.first
+  # create a disable camera command
+  command = @blink.disable_camera network_id, camera_id
 
-  camera.enable
-  puts camera.enabled # true
-
-  camera.disable
-  puts camera.enabled # false
+  # request command status
+  status = @blink.command_status network_id, command_id
+  
+  # wait for command to be complete
+  @blink.wait_for_command network_id, command_id
 
 ```

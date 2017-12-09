@@ -1,6 +1,6 @@
 module Blink
   class Command
-    attr_reader :id, :created_at, :updated_at, :execute_time, :command, :state_stage, :attempts
+    attr_reader :id, :created_at, :updated_at, :execute_time, :command, :state_stage, :attempts, :complete
 
     def initialize id, created_at, updated_at , execute_time, command, stage_stage, attempts
       @id = id

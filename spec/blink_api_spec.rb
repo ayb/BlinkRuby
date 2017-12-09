@@ -3,6 +3,7 @@ RSpec.describe Blink::API do
   before(:all) do
     @network_id = 7681
     @camera_id = 19729
+    @command_id = 13415596
     @blink = Blink::API.new
     @blink.token = ENV['BLINK_TOKEN']
   end
@@ -32,27 +33,32 @@ RSpec.describe Blink::API do
     command = @blink.arm_network @network_id
     expect(command).to be_a(Blink::Command)
     
-    poll command
+    @blink.wait_for_command @network_id, command.id
   end  
 
   it "should create a disarm network command" do
     command = @blink.disarm_network @network_id
     expect(command).to be_a(Blink::Command)
-    
-    poll command
+    @blink.wait_for_command @network_id, command.id
   end
 
   it "should create an enable camera command" do
     command = @blink.enable_camera @network_id , @camera_id
     expect(command).to be_a(Blink::Command)
 
-    poll command
+    @blink.wait_for_command @network_id, command.id
   end
 
-  it "should create an disable camera command" do
+  it "should create a disable camera command" do
     command = @blink.disable_camera @network_id , @camera_id
     expect(command).to be_a(Blink::Command)
 
-    poll command
+    @blink.wait_for_command @network_id, command.id
+  end
+
+  it "should get the status of a command" do
+
+    status = @blink.command_status @network_id, @command_id
+    expect(status).to be_a(Blink::Status)
   end
 end

@@ -82,8 +82,7 @@ module Blink
 
       case response.code
         when 200
-          command = JSON.parse(response.body)
-          Blink::Command.new command['id'], command['created_at'], command['updated_at'] , command['execute_time'], command['command'], command['stage_stage'], command['attempts']
+          self.bind_command JSON.parse(response.body)
         when 400...600
           throw Exception.new(response.body)
       end
@@ -99,7 +98,7 @@ module Blink
       case response.code
         when 200
           command = JSON.parse(response.body)
-          Blink::Command.new command['id'], command['created_at'], command['updated_at'] , command['execute_time'], command['command'], command['stage_stage'], command['attempts']
+          self.bind_command JSON.parse(response.body)
         when 400...600
           throw Exception.new(response.body)
       end
@@ -159,8 +158,7 @@ module Blink
 
       case response.code
         when 200
-          command = JSON.parse(response.body)
-          Blink::Command.new command['id'], command['created_at'], command['updated_at'] , command['execute_time'], command['command'], command['stage_stage'], command['attempts']
+          self.bind_command JSON.parse(response.body)
         when 400...600
           throw Exception.new(response.body)
       end
@@ -175,15 +173,35 @@ module Blink
 
       case response.code
         when 200
-          command = JSON.parse(response.body)
-          Blink::Command.new command['id'], command['created_at'], command['updated_at'] , command['execute_time'], command['command'], command['stage_stage'], command['attempts']
+          self.bind_command JSON.parse(response.body)
         when 400...600
           throw Exception.new(response.body)
       end
     end
 
-    def command_status
+    def command_status network_id, id
+      @options = {
+        headers: @headers
+      }
 
+      response = self.class.get("/network/#{network_id}/command/#{id}", @options)
+      case response.code
+        when 200
+          self.bind_status JSON.parse(response.body)
+        when 400...600
+          throw Exception.new(response.body)
+      end
+    end
+
+    def wait_for_command network_id, id
+      max_retries = 10
+      count = 0
+      loop do 
+        count += 1
+        command = self.command_status network_id, id
+        break if command.complete || count == max_retries 
+        sleep 1
+      end  
     end
 
     def homescreen
@@ -240,6 +258,29 @@ module Blink
 
     def health
 
+    end
+
+    def bind_status status
+
+      commands = status['commands'].map do |command|
+        self.bind_command command
+      end
+
+      Blink::Status.new status['complete'],
+                        status['status'],
+                        status['status_code'],
+                        status['status_msg'],
+                        commands
+    end
+
+    def bind_command command
+      Blink::Command.new command['id'], 
+                         command['created_at'], 
+                         command['updated_at'], 
+                         command['execute_time'], 
+                         command['command'], 
+                         command['stage_stage'], 
+                         command['attempts']
     end
   end
 end
